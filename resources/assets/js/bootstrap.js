@@ -53,3 +53,12 @@ if (token) {
 //     cluster: 'mt1',
 //     encrypted: true
 // });
+
+$(document).ready(function() {
+
+	$('.card').delay(1).queue(function(next) {
+		$(this).removeClass('hover');
+		$('a.hover').removeClass('hover');
+		next();
+	});
+});

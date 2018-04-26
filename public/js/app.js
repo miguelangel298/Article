@@ -1089,6 +1089,7 @@ module.exports = __webpack_require__(46);
 __webpack_require__(12);
 
 window.Vue = __webpack_require__(36);
+window.EventBus = new Vue({});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -1163,6 +1164,15 @@ if (token) {
 //     cluster: 'mt1',
 //     encrypted: true
 // });
+
+$(document).ready(function () {
+
+  $('.card').delay(1).queue(function (next) {
+    $(this).removeClass('hover');
+    $('a.hover').removeClass('hover');
+    next();
+  });
+});
 
 /***/ }),
 /* 13 */
@@ -43262,17 +43272,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -43282,11 +43281,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       endpoint: 'api/signatures?page='
     };
   },
-  created: function created() {
+
+  mounted: function mounted() {
     this.fetch();
+    EventBus.$on('editing', function (index) {
+      this.fetch();
+    }.bind(this));
   },
-
-
   methods: {
     fetch: function fetch() {
       var _this = this;
@@ -43328,32 +43329,25 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm._l(_vm.signatures, function(signature) {
-        return _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("h5", { staticClass: "card-title" }, [
-              _c("span", { staticClass: "glyphicon glyphicon-user" }),
-              _vm._v("  " + _vm._s(signature.name) + "sssssssssssssssssssssss")
-            ]),
-            _vm._v(" "),
-            _c("h6", { staticClass: "card-subtitle mb-2 text-muted" }, [
-              _vm._v("klkd subtdidfsftle")
-            ]),
-            _vm._v(" "),
-            _c("p", { staticClass: "card-text" }, [
-              _vm._v(_vm._s(signature.body))
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "card-link", attrs: { href: "#" } }, [
-              _vm._v("Card ljjink")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "card-link", attrs: { href: "#" } }, [
-              _vm._v("Another jjlink")
+      _c(
+        "div",
+        { staticClass: "row" },
+        _vm._l(_vm.signatures, function(signature) {
+          return _c("div", { staticClass: "col-md-4 " }, [
+            _c("div", { staticClass: "card " }, [
+              _vm._m(0, true),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-content" }, [
+                _c("a", { attrs: { href: "#!" } }, [
+                  _c("h2", [_vm._v(" By: " + _vm._s(signature.name))]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v(_vm._s(signature.body))])
+                ])
+              ])
             ])
           ])
-        ])
-      }),
+        })
+      ),
       _vm._v(" "),
       _c("paginate", {
         attrs: {
@@ -43365,10 +43359,35 @@ var render = function() {
         }
       })
     ],
-    2
+    1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "card-img",
+        staticStyle: {
+          "background-image":
+            "url(https://media.istockphoto.com/vectors/vector-isolated-vintage-typewriter-retro-equipment-flat-style-vector-id913384232?k=6&m=913384232&s=612x612&w=0&h=BXZex83JD5c2zdaBvkrGpeRtWuNt2ARhVdVMDndX0F0=)"
+        }
+      },
+      [
+        _c("div", { staticClass: "overlay" }, [
+          _c("div", { staticClass: "overlay-content" }, [
+            _c("a", { staticClass: "hover", attrs: { href: "#!" } }, [
+              _vm._v("Detalle")
+            ])
+          ])
+        ])
+      ]
+    )
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -43435,8 +43454,105 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      errors: [],
+      saved: false,
+      signature: {
+        name: null,
+        email: null,
+        body: null
+      }
+    };
+  },
+
+  methods: {
+    onSubmit: function onSubmit() {
+      var _this = this;
+
+      this.saved = false;
+      axios.post('api/signatures', this.signature).then(function (_ref) {
+        var data = _ref.data;
+        return _this.setSuccessMessage();
+      }).catch(function (_ref2) {
+        var response = _ref2.response;
+        return _this.setErrors(response);
+      });
+    },
+    setErrors: function setErrors(response) {
+      this.errors = response.data.errors;
+    },
+
+    edit: function edit() {
+      EventBus.$emit('editing');
+    },
+    setSuccessMessage: function setSuccessMessage() {
+      this.reset();
+      this.saved = true;
+      this.edit();
+    },
+    reset: function reset() {
+      this.errors = [];
+      this.signature = { name: null, email: null, body: null };
+    }
+  }
+});
 
 /***/ }),
 /* 44 */
@@ -43446,9 +43562,216 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", [
+    _vm.saved
+      ? _c("div", { staticClass: "alert alert-success" }, [
+          _c("strong", [_vm._v("Guardado!")]),
+          _vm._v(" Tu Articulo esta publicado.\n    ")
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "well well-sm", attrs: { id: "signature-form" } },
+      [
+        _c(
+          "form",
+          {
+            staticClass: "form-horizontal",
+            attrs: { method: "post" },
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.onSubmit($event)
+              }
+            }
+          },
+          [
+            _c("fieldset", [
+              _c("legend", { staticClass: "text-center" }, [
+                _vm._v("Publicar Articulo")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-md-3 control-label",
+                    attrs: { for: "name" }
+                  },
+                  [_vm._v("Nombre")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "col-md-9",
+                    class: { "has-error": _vm.errors.name }
+                  },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.signature.name,
+                          expression: "signature.name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        id: "name",
+                        type: "text",
+                        placeholder: "Nombre completo"
+                      },
+                      domProps: { value: _vm.signature.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.signature, "name", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.name
+                      ? _c("span", { staticClass: "help-block text-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.name[0]))
+                        ])
+                      : _vm._e()
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-md-3 control-label",
+                    attrs: { for: "email" }
+                  },
+                  [_vm._v("Email")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "col-md-9",
+                    class: { "has-error": _vm.errors.email }
+                  },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.signature.email,
+                          expression: "signature.email"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        id: "email",
+                        type: "text",
+                        placeholder: "Correo electronico"
+                      },
+                      domProps: { value: _vm.signature.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.signature, "email", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.email
+                      ? _c("span", { staticClass: "help-block text-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.email[0]))
+                        ])
+                      : _vm._e()
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-md-3 control-label",
+                    attrs: { for: "body" }
+                  },
+                  [_vm._v("Mensaje")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "col-md-9",
+                    class: { "has-error": _vm.errors.body }
+                  },
+                  [
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.signature.body,
+                          expression: "signature.body"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        id: "body",
+                        placeholder: "Por favor escriba su articulo...",
+                        rows: "5"
+                      },
+                      domProps: { value: _vm.signature.body },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.signature, "body", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.body
+                      ? _c("span", { staticClass: "help-block text-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.body[0]))
+                        ])
+                      : _vm._e()
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _vm._m(0)
+            ])
+          ]
+        )
+      ]
+    )
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("div", { staticClass: "col-md-12 text-right" }, [
+        _c(
+          "button",
+          { staticClass: "btn btn-primary btn-lg", attrs: { type: "submit" } },
+          [_vm._v("Enviar")]
+        )
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

@@ -1,35 +1,24 @@
 <template >
   <div >
-    <!-- <div class="panel panel-default" v-for="signature in signatures">
-      <div class="panel-heading">
-        <span class="glyphicon glyphicon-user" id="start"></span>
-        <label id="started">By</label> {{ signature.name }}
-      </div>
-      <div class="panel-body">
-        <div class="col-md-2">
-          <div class="thumbnail">
-            <span class="glyphicon glyphicon-user"></span>
+    <div class="row">
+      <div class="col-md-4 " v-for="signature in signatures">
+        <div class="card "  >
+          <div class="card-img" style="background-image:url(https://media.istockphoto.com/vectors/vector-isolated-vintage-typewriter-retro-equipment-flat-style-vector-id913384232?k=6&m=913384232&s=612x612&w=0&h=BXZex83JD5c2zdaBvkrGpeRtWuNt2ARhVdVMDndX0F0=);">
+            <div class="overlay">
+              <div class="overlay-content">
+                <a class="hover" href="#!">Detalle</a>
+              </div>
+            </div>
+          </div>
+          <div class="card-content">
+            <a href="#!">
+              <h2> By: {{ signature.name }}</h2>
+              <p>{{ signature.body }}</p>
+            </a>
           </div>
         </div>
-        <p>{{ signature.body }}</p>
-      </div>
-      <div class="panel-footer">
-        <span class="glyphicon glyphicon-calendar" id="visit"></span> {{ signature.date }} |
-        <span class="glyphicon glyphicon-flag" id="comment"></span>
-        <a href="#" id="comments" @click="report(signature.id)">Report</a>
-      </div>
-    </div> -->
-
-    <div class="card" v-for="signature in signatures" >
-      <div class="card-body">
-        <h5 class="card-title"> <span class="glyphicon glyphicon-user" ></span>  {{ signature.name }}sssssssssssssssssssssss</h5>
-        <h6 class="card-subtitle mb-2 text-muted">klkd subtdidfsftle</h6>
-        <p class="card-text">{{ signature.body }}</p>
-        <a href="#" class="card-link">Card ljjink</a>
-        <a href="#" class="card-link">Another jjlink</a>
       </div>
     </div>
-
     <paginate
             :page-count="pageCount"
             :click-handler="fetch"
@@ -50,11 +39,12 @@ export default {
       endpoint: 'api/signatures?page='
     };
   },
-
-  created () {
+  mounted: function () {
     this.fetch();
+    EventBus.$on('editing', function (index) {
+      this.fetch();
+    }.bind(this));
   },
-
   methods: {
     fetch(page = 1) {
       axios.get(this.endpoint + page)
@@ -63,7 +53,6 @@ export default {
             this.pageCount = data.meta.last_page;
           });
     },
-
     report(id) {
       if(confirm('Afirmacion')) {
         axios.put('api/signatures/'+id+'/report')

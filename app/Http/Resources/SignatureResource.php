@@ -12,12 +12,15 @@ class SignatureResource extends Resource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request)
+
+     public function toArray($request)
     {
         return [
-          'id' => $this->id,
-          'name' => $this->name,
-          'body' => $this->body
+            'id' => $this->id,
+            'name' => $this->name,
+            'body' => $this->body
         ];
     }
+
+
 }
