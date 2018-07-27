@@ -6,7 +6,7 @@
           <div class="card-img" style="background-image:url(https://media.istockphoto.com/vectors/vector-isolated-vintage-typewriter-retro-equipment-flat-style-vector-id913384232?k=6&m=913384232&s=612x612&w=0&h=BXZex83JD5c2zdaBvkrGpeRtWuNt2ARhVdVMDndX0F0=);">
             <div class="overlay">
               <div class="overlay-content">
-                <a class="hover" href="#!">Detalle</a>
+                <a class="hover" href="#!">Detail</a>
               </div>
             </div>
           </div>
