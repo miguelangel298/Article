@@ -43380,7 +43380,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "overlay" }, [
           _c("div", { staticClass: "overlay-content" }, [
             _c("a", { staticClass: "hover", attrs: { href: "#!" } }, [
-              _vm._v("Detalle")
+              _vm._v("Detail")
             ])
           ])
         ])
@@ -43565,8 +43565,8 @@ var render = function() {
   return _c("div", [
     _vm.saved
       ? _c("div", { staticClass: "alert alert-success" }, [
-          _c("strong", [_vm._v("Guardado!")]),
-          _vm._v(" Tu Articulo esta publicado.\n    ")
+          _c("strong", [_vm._v("Guarded!")]),
+          _vm._v(" Your article is published.\n    ")
         ])
       : _vm._e(),
     _vm._v(" "),
@@ -43589,7 +43589,7 @@ var render = function() {
           [
             _c("fieldset", [
               _c("legend", { staticClass: "text-center" }, [
-                _vm._v("Publicar Articulo")
+                _vm._v("Publish Article")
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
@@ -43599,7 +43599,7 @@ var render = function() {
                     staticClass: "col-md-3 control-label",
                     attrs: { for: "name" }
                   },
-                  [_vm._v("Nombre")]
+                  [_vm._v("Name")]
                 ),
                 _vm._v(" "),
                 _c(
@@ -43622,7 +43622,7 @@ var render = function() {
                       attrs: {
                         id: "name",
                         type: "text",
-                        placeholder: "Nombre completo"
+                        placeholder: "Full name"
                       },
                       domProps: { value: _vm.signature.name },
                       on: {
@@ -43674,7 +43674,7 @@ var render = function() {
                       attrs: {
                         id: "email",
                         type: "text",
-                        placeholder: "Correo electronico"
+                        placeholder: "Email"
                       },
                       domProps: { value: _vm.signature.email },
                       on: {
@@ -43703,7 +43703,7 @@ var render = function() {
                     staticClass: "col-md-3 control-label",
                     attrs: { for: "body" }
                   },
-                  [_vm._v("Mensaje")]
+                  [_vm._v("Message")]
                 ),
                 _vm._v(" "),
                 _c(
@@ -43725,7 +43725,7 @@ var render = function() {
                       staticClass: "form-control",
                       attrs: {
                         id: "body",
-                        placeholder: "Por favor escriba su articulo...",
+                        placeholder: "Please write your article ...",
                         rows: "5"
                       },
                       domProps: { value: _vm.signature.body },
@@ -43766,7 +43766,7 @@ var staticRenderFns = [
         _c(
           "button",
           { staticClass: "btn btn-primary btn-lg", attrs: { type: "submit" } },
-          [_vm._v("Enviar")]
+          [_vm._v("Submit")]
         )
       ])
     ])
